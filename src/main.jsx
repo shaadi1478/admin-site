@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -12,6 +13,8 @@ import UserManagement from './Components/UserManagement/UserManagement';
 import BookManagement from './Components/BookManagement/BookManagement';
 import Login from './Components/Login/Login';
 
+
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,7 +22,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <DashBoard />,
+        element: <DashBoard />
       },
       {
         path: "/usermanagement",
@@ -32,7 +35,7 @@ const router = createBrowserRouter([
       {
         path:'/login',
         element: <Login />
-      }
+      },
     ],
   },
 ]);

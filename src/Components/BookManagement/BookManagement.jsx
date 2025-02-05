@@ -13,28 +13,6 @@ const BookManagement = () => {
     { id: 7, name: "Machine Learning with Python", type: "Technical", language: "English", availability: "Available" },
     { id: 8, name: "Effective Java", type: "Programming", language: "Italian", availability: "Borrowed" },
     { id: 9, name: "C++ in Depth", type: "Technical", language: "Russian", availability: "Available" },
-    { id: 10, name: "Clean Code", type: "Educational", language: "Spanish", availability: "Available" },
-    { id: 11, name: "The Pragmatic Programmer", type: "Programming", language: "French", availability: "Available" },
-    { id: 12, name: "Design Patterns: Elements of Reusable Object-Oriented Software", type: "Technical", language: "English", availability: "Borrowed" },
-    { id: 13, name: "Artificial Intelligence: A Modern Approach", type: "Technical", language: "Japanese", availability: "Available" },
-    { id: 14, name: "The Clean Coder", type: "Programming", language: "English", availability: "Available" },
-    { id: 15, name: "Introduction to Algorithms", type: "Educational", language: "German", availability: "Borrowed" },
-    { id: 16, name: "Operating System Concepts", type: "Technical", language: "Italian", availability: "Available" },
-    { id: 17, name: "The Mythical Man-Month", type: "Management", language: "Spanish", availability: "Borrowed" },
-    { id: 18, name: "The Art of Computer Programming", type: "Educational", language: "French", availability: "Available" },
-    { id: 19, name: "Data Science for Business", type: "Technical", language: "Russian", availability: "Available" },
-    { id: 20, name: "Building Microservices", type: "Programming", language: "English", availability: "Borrowed" },
-    // Adding new books:
-    { id: 21, name: "Angular from Scratch", type: "Programming", language: "English", availability: "Available" },
-    { id: 22, name: "Docker in Action", type: "Technical", language: "Spanish", availability: "Available" },
-    { id: 23, name: "Cloud Native Development", type: "Educational", language: "German", availability: "Borrowed" },
-    { id: 24, name: "Deep Learning with Python", type: "Technical", language: "French", availability: "Available" },
-    { id: 25, name: "Kubernetes Handbook", type: "Programming", language: "English", availability: "Available" },
-    { id: 26, name: "Swift Programming for iOS", type: "Programming", language: "Italian", availability: "Borrowed" },
-    { id: 27, name: "Introduction to Machine Learning", type: "Educational", language: "Chinese", availability: "Available" },
-    { id: 28, name: "Building Data-Driven Apps", type: "Technical", language: "Russian", availability: "Available" },
-    { id: 29, name: "Agile Software Development", type: "Management", language: "English", availability: "Available" },
-    { id: 30, name: "Clean Architecture", type: "Programming", language: "Spanish", availability: "Borrowed" },
   ]);
   
   

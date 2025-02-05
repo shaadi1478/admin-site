@@ -1,9 +1,8 @@
-import { useEffect } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { User, Book, Library, RefreshCw } from "lucide-react";
+import { User, Book, RefreshCw } from "lucide-react";
 
-// Register required ChartJS elements
+// Register ChartJS components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
@@ -12,8 +11,8 @@ const Dashboard = () => {
     labels: ["Total Borrowed Books", "Total Returned Books"],
     datasets: [
       {
-        data: [75, 25], // Example Data
-        backgroundColor: ["#4C51BF", "#00B5D8"], // More distinct colors
+        data: [75, 25],
+        backgroundColor: ["#4C51BF", "#00B5D8"],
       },
     ],
   };
@@ -32,17 +31,15 @@ const Dashboard = () => {
     { name: "Bob Smith", adminId: "3", status: "Active" },
   ];
 
-  const branchNetwork = [
-    { name: "BookWorm - Matara", branchId: "1" },
-    { name: "BookWorm - Colombo", branchId: "2" },
-    { name: "BookWorm - Kandy", branchId: "3" },
-    { name: "BookWorm - Galle", branchId: "4" },
-    { name: "BookWorm - Jaffna", branchId: "5" },
+  const statistics = [
+    { icon: User, count: "150", text: "Total User Base" },
+    { icon: Book, count: "1500", text: "Total Book Count" },
   ];
 
   return (
     <div className="p-6 bg-gradient-to-br from-purple-600 to-blue-500 min-h-screen py-40">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
         {/* Left - Pie Chart */}
         <div className="bg-white/10 backdrop-blur-md p-6 rounded-lg shadow-md">
           <Pie data={data} />
@@ -60,20 +57,18 @@ const Dashboard = () => {
 
         {/* Middle - Stats */}
         <div className="flex flex-col space-y-4 text-white">
-          {[{ icon: User, count: "0150", text: "Total User Base" },
-            { icon: Book, count: "01500", text: "Total Book Count" },
-            { icon: Library, count: "0010", text: "Branch Count" }].map((stat, index) => (
-              <div key={index} className="flex items-center bg-white/10 backdrop-blur-md p-4 rounded-lg shadow-md">
-                <stat.icon className="w-8 h-8 text-blue-600  mr-4" />
-                <div>
-                  <h2 className="text-2xl font-bold text-white">{stat.count}</h2>
-                  <p className="text-white">{stat.text}</p>
-                </div>
+          {statistics.map((stat, index) => (
+            <div key={index} className="flex items-center bg-white/10 p-4 rounded-lg shadow-md">
+              <stat.icon className="w-6 h-6 text-yellow-300 mr-4" />
+              <div>
+                <p className="text-lg font-bold">{stat.count}</p>
+                <p className="text-gray-300">{stat.text}</p>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
 
-        {/* Right - Borrowers & Branches */}
+        {/* Right - Borrowers & Admins */}
         <div className="flex flex-col space-y-4">
           {/* Overdue Borrowers */}
           <div className="bg-white/10 backdrop-blur-md p-4 rounded-lg shadow-md">
@@ -108,6 +103,7 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
+
       </div>
     </div>
   );

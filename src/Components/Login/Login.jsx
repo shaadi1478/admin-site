@@ -1,33 +1,52 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { EyeIcon, EyeOffIcon } from "lucide-react"; // Import icons from lucide-react
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
+
     if (isLogin) {
-      console.log("Login - Username:", username);
-      console.log("Login - Password:", password);
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (storedUser && storedUser.username === username && storedUser.password === password) {
+        localStorage.setItem("auth", "true");
+        navigate("/");
+      } else {
+        setError("Invalid credentials! Try again.");
+      }
     } else {
-      console.log("Sign Up - Username:", username);
-      console.log("Sign Up - Email:", email);
-      console.log("Sign Up - Password:", password);
+      const newUser = { username, email, password };
+      localStorage.setItem("user", JSON.stringify(newUser));
+      setSuccess("Signup successful! Redirecting to login...");
+      setTimeout(() => {
+        setIsLogin(true);
+      }, 2000);
     }
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 to-blue-600"
-    >
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 to-blue-600">
       <div className="relative bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl w-full max-w-4xl flex">
-        {/* Left side: Form container */}
         <div className="w-full max-w-md">
-          <h2 className="text-3xl font-bold text-white mb-6 text-center drop-shadow-lg">
-            {isLogin ? "Welcome Back!" : "Join the Library"}
+          <h2 className="text-3xl font-bold text-white mb-6 text-center">
+            {isLogin ? "Welcome Back!" : "Join Us"}
           </h2>
+
+          {error && <p className="text-red-500 text-center">{error}</p>}
+          {success && <p className="text-green-400 text-center">{success}</p>}
+
           <form onSubmit={handleSubmit}>
             {!isLogin && (
               <div className="mb-4">
@@ -51,15 +70,22 @@ const Login = () => {
                 required
               />
             </div>
-            <div className="mb-6">
+            <div className="mb-6 relative">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"} // Toggle password visibility
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 bg-transparent border border-white/30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white"
+                className="w-full px-4 py-2 bg-transparent border border-white/30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white pr-10"
                 placeholder="Enter your password"
                 required
               />
+              <button
+                type="button"
+                className="absolute right-3 top-2 text-white"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
+              </button>
             </div>
             <button
               type="submit"
@@ -71,33 +97,17 @@ const Login = () => {
               {isLogin ? "Don't have an account? " : "Already have an account? "}
               <button
                 type="button"
-                onClick={() => setIsLogin(!isLogin)}
+                onClick={() => {
+                  setIsLogin(!isLogin);
+                  setError("");
+                  setSuccess("");
+                }}
                 className="text-yellow-300 hover:underline focus:outline-none transition"
               >
                 {isLogin ? "Sign Up" : "Login"}
               </button>
             </p>
           </form>
-        </div>
-
-        {/* Right side: Custom SVG Character */}
-        <div className="hidden md:block w-1/2 pl-8">
-          {/* Example of SVG Character */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="w-full h-auto text-white opacity-70"
-          >
-            {/* Custom Character Illustration (Example) */}
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 6v6l4 2" />
-            <circle cx="12" cy="12" r="3" />
-          </svg>
         </div>
       </div>
     </div>
