@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { EyeIcon, EyeOffIcon } from "lucide-react"; // Import icons from lucide-react
+import Popup from "../Popup/Popup";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -22,14 +22,33 @@ const Login = () => {
       const storedUser = JSON.parse(localStorage.getItem("user"));
       if (storedUser && storedUser.username === username && storedUser.password === password) {
         localStorage.setItem("auth", "true");
-        navigate("/");
+        setSuccess("Login successful! Welcome back.");
+        setTimeout(() => navigate("/dashboard"), 2000);
       } else {
         setError("Invalid credentials! Try again.");
       }
     } else {
+      if (password.length < 6) {
+        setError("Password must be at least 6 characters");
+        return;
+      }
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/ ;
+      if (!emailRegex.test(email)) {
+        setError("Email must be 6 characters (letters, numbers, hyphens) @mangrove.edu.bd");
+        return;
+      }
+      
+      // Validate password format
+      const passwordRegex = /^\d{6}$/;
+      if (!passwordRegex.test(password)) {
+        setError("Password must be a 6-digit number");
+        return;
+      }
+      
       const newUser = { username, email, password };
       localStorage.setItem("user", JSON.stringify(newUser));
-      setSuccess("Signup successful! Redirecting to login...");
+      setSuccess("Account created successfully! You can now login.");
       setTimeout(() => {
         setIsLogin(true);
       }, 2000);
@@ -38,14 +57,30 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 to-blue-600">
-      <div className="relative bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl w-full max-w-4xl flex">
+      <div className="relative bg-white/10 backdrop-blur-lg px-4 py-6 md:px-8 md:py-8 rounded-2xl shadow-2xl w-full max-w-2xl mx-auto flex min-w-[300px]">
         <div className="w-full max-w-md">
-          <h2 className="text-3xl font-bold text-white mb-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 md:mb-8 text-center">
             {isLogin ? "Welcome Back!" : "Join Us"}
           </h2>
 
-          {error && <p className="text-red-500 text-center">{error}</p>}
-          {success && <p className="text-green-400 text-center">{success}</p>}
+          {error && (
+            <Popup
+              type="error"
+              message={error}
+              onClose={() => setError("")}
+            />
+          )}
+
+          {success && (
+            <Popup
+              type="success"
+              message={success}
+              onClose={() => {
+                setSuccess("");
+                if (isLogin) navigate("/dashboard");
+              }}
+            />
+          )}
 
           <form onSubmit={handleSubmit}>
             {!isLogin && (
@@ -55,7 +90,7 @@ const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-2 bg-transparent border border-white/30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white"
-                  placeholder="Enter your email"
+                  placeholder="enter your email"
                   required
                 />
               </div>
@@ -66,30 +101,35 @@ const Login = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full px-4 py-2 bg-transparent border border-white/30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white"
-                placeholder="Enter your username"
+                placeholder="enter admin username"
                 required
               />
             </div>
-            <div className="mb-6 relative">
+            <div className="mb-6">
               <input
-                type={showPassword ? "text" : "password"} // Toggle password visibility
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 bg-transparent border border-white/30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white pr-10"
-                placeholder="Enter your password"
+                className="w-full px-4 py-2 bg-transparent border border-white/30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white"
+                placeholder="enter your password"
                 required
               />
-              <button
-                type="button"
-                className="absolute right-3 top-2 text-white"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
-              </button>
+              <div className="flex items-center mt-2">
+                <input
+                  type="checkbox"
+                  id="showPassword"
+                  checked={showPassword}
+                  onChange={() => setShowPassword(!showPassword)}
+                  className="w-4 h-4 rounded border-gray-300 bg-white/10"
+                />
+                <label htmlFor="showPassword" className="ml-2 text-sm text-white hover:text-yellow-300 cursor-pointer">
+                  Show Password
+                </label>
+              </div>
             </div>
             <button
               type="submit"
-              className="w-full py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-200 transition"
+              className="w-full py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-300 hover:bg-opacity-90"
             >
               {isLogin ? "Login" : "Sign Up"}
             </button>

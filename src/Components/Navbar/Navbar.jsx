@@ -29,10 +29,9 @@ const Navbar = () => {
           }`}
         >
           {[
-            { name: "Dashboard", path: "/" },
+            { name: "Dashboard", path: "/dashboard" },
             { name: "User Management", path: "/usermanagement" },
             { name: "Book Management", path: "/bookmanagement" },
-            { name: "Login", path: "/login" },
           ].map((item) => (
             <li key={item.path}>
               <Link

@@ -1,5 +1,8 @@
 import { Search, Plus, Edit, Trash, BookOpen } from "lucide-react";
 import { useState } from "react";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const BookManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,7 +28,7 @@ const BookManagement = () => {
   });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false); // State for Add Book Modal
   const [currentPage, setCurrentPage] = useState(1);
-  const booksPerPage = 12;
+  const booksPerPage = 10;
 
   // Filter Books based on Search Term
   const filteredBooks = bookList.filter((book) =>
@@ -51,22 +54,30 @@ const BookManagement = () => {
     ));
     setEditingBook(null);
     setNewBookDetails({ name: "", type: "", language: "", availability: "Available" });
+    toast.info('Book updated successfully! ✏️');
   };
 
   // Handle Delete Book
   const handleDeleteClick = (id) => {
     setBookList(bookList.filter((book) => book.id !== id));
+    toast.error('Book deleted successfully!');
   };
 
   // Handle Add New Book
   const handleAddNewBook = () => {
+    if (!newBookDetails.name || !newBookDetails.type || !newBookDetails.language) {
+      toast.error('Please fill all required fields!');
+      return;
+    }
+    
     const newBook = {
-      id: bookList.length + 1, // Simple ID generation, you can improve it
+      id: bookList.length + 1,
       ...newBookDetails,
     };
     setBookList([...bookList, newBook]);
     setIsAddModalOpen(false); // Close Add Book Modal
     setNewBookDetails({ name: "", type: "", language: "", availability: "Available" }); // Reset form
+    toast.success('Book added successfully! 📚');
   };
 
   // Handle Page Change
@@ -83,7 +94,7 @@ const BookManagement = () => {
   };
 
   return (
-    <div className="p-6 min-h-screen py-24 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
+    <div className="p-6 min-h-screen pt-24 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
   {/* Header */}
   <div className="flex flex-wrap justify-between items-center mb-4">
     <h2 className="text-2xl font-semibold text-gray-100 w-full md:w-auto">Book Management</h2>
@@ -108,7 +119,7 @@ const BookManagement = () => {
   </div>
 
   {/* Table */}
-  <div className="bg-white/10 backdrop-blur-md p-4 rounded-lg shadow-md">
+  <div className="bg-white/10 backdrop-blur-md p-4 rounded-lg shadow-md overflow-x-auto">
     <div className="overflow-x-auto">
       <table className="w-full ">
         <thead>
@@ -262,6 +273,17 @@ const BookManagement = () => {
       </div>
     </div>
   )}
+
+  <ToastContainer
+    position="top-right"
+    autoClose={5000}
+    newestOnTop
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+  />
 
 </div>
 

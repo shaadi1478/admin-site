@@ -3,7 +3,7 @@ import Navbar from "../Navbar/Navbar";
 
 const Root = () => {
     return (
-        <div>
+        <div className="pt-16">
             <Navbar />
             <Outlet />
         </div>

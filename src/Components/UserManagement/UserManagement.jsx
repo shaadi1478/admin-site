@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Search, Edit, Trash, Plus } from "lucide-react";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserManagement = () => {
   const sampleUsers = [
-    { id: 1, name: "Alice Johnson", email: "alice@example.com", username: "alicej", role: "Admin", status: "Active" },
-    { id: 2, name: "Bob Smith", email: "bob@example.com", username: "bobsmith", role: "User", status: "Inactive" },
+    { id: 1, name: "Sheikh Sadi", email: "sheikhshaadi137@gmail.com", username: "sadi", role: "Admin", status: "Active" },
+    { id: 2, name: "Tamjid Bond", email: "bondtamid@gmail.com", username: "tamjid", role: "User", status: "Inactive" },
   ];
 
   const [users, setUsers] = useState(sampleUsers);
@@ -25,17 +27,29 @@ const UserManagement = () => {
 
   // Handle adding a new user
   const handleAddUser = () => {
-    if (!newUser.name || !newUser.email || !newUser.username) return;
+    if (!newUser.name || !newUser.email || !newUser.username) {
+      toast.error('Please fill all fields!');
+      return;
+    }
 
     const newUserData = {
-      id: users.length + 1, // Create a new id
+      id: users.length + 1,
       ...newUser,
-      role: "User", // Default role, can be changed
-      status: "Active", // Default status, can be changed
+      role: "User",
+      status: "Active",
     };
 
     setUsers([...users, newUserData]);
-    setNewUser({ name: "", email: "", username: "" }); // Reset form
+    setNewUser({ name: "", email: "", username: "" });
+    toast.success('User added successfully! 🎉', {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   // Search filter
@@ -73,6 +87,15 @@ const UserManagement = () => {
   const confirmDeleteUser = () => {
     setUsers(users.filter(user => user.id !== confirmDelete));
     setConfirmDelete(null); // Close confirmation
+    toast.error('User deleted successfully!', {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   return (
@@ -249,6 +272,17 @@ const UserManagement = () => {
           </div>
         </div>
       )}
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
 
     </div>
   );
