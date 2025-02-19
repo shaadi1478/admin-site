@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Popup from "../Popup/Popup";
+import { FcGoogle } from "react-icons/fc";
+import { signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider } from "firebase/auth";
+import auth from "../../Firebase/Firebase.init";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,12 +16,22 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const navigate = useNavigate();
+  const provider = new GoogleAuthProvider();
+
+  const handleWithGoogleSign = () => {
+    signInWithPopup(auth, provider)
+    .then(result => {
+      console.log(result)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
-
     if (isLogin) {
       const storedUser = JSON.parse(localStorage.getItem("user"));
       if (storedUser && storedUser.username === username && storedUser.password === password) {
@@ -133,6 +147,8 @@ const Login = () => {
             >
               {isLogin ? "Login" : "Sign Up"}
             </button>
+            <button onClick={handleWithGoogleSign} className="w-full py-3 flex items-center justify-center gap-5 mt-1 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-300 hover:bg-opacity-90"
+            >Sign In With Google <FcGoogle  className="text-2xl"/></button>
             <p className="text-center text-white mt-4">
               {isLogin ? "Don't have an account? " : "Already have an account? "}
               <button
