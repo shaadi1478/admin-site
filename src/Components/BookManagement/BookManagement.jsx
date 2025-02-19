@@ -3,7 +3,7 @@ import { useState } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-
+import Navbar from "../Navbar/Navbar";
 const BookManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [bookList, setBookList] = useState([
@@ -94,7 +94,9 @@ const BookManagement = () => {
   };
 
   return (
-    <div className="p-6 min-h-screen pt-24 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
+    <div>
+        <Navbar />
+      <div className="p-6 min-h-screen pt-24 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
   {/* Header */}
   <div className="flex flex-wrap justify-between items-center mb-4">
     <h2 className="text-2xl font-semibold text-gray-100 w-full md:w-auto">Book Management</h2>
@@ -286,6 +288,7 @@ const BookManagement = () => {
   />
 
 </div>
+    </div>
 
   );
 };

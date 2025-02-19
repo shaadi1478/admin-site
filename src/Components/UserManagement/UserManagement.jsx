@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Search, Edit, Trash, Plus } from "lucide-react";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Navbar from "../Navbar/Navbar";
 const UserManagement = () => {
   const sampleUsers = [
     { id: 1, name: "Sheikh Sadi", email: "sheikhshaadi137@gmail.com", username: "sadi", role: "Admin", status: "Active" },
@@ -99,7 +99,9 @@ const UserManagement = () => {
   };
 
   return (
-    <div className="p-6 min-h-screen bg-gradient-to-br from-purple-600 to-blue-600 flex flex-col items-center text-white py-20">
+    <div>
+      <Navbar />
+      <div className="p-6 min-h-screen bg-gradient-to-br from-purple-600 to-blue-600 flex flex-col items-center text-white py-24">
       <div className="mb-6 text-center">
         <h2 className="ms:text-4xl font-extrabold drop-shadow-lg text-lg sm:text-3xl md:text-4xl">User Management</h2>
         <p className="text-lg opacity-80">Manage your users efficiently with this dashboard!</p>
@@ -284,6 +286,7 @@ const UserManagement = () => {
         pauseOnHover
       />
 
+    </div>
     </div>
   );
 };
