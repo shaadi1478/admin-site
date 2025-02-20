@@ -11,7 +11,7 @@ const Navbar = () => {
     <aside className="bg-gradient-to-br from-purple-600 to-blue-600 text-white p-4 shadow-lg fixed w-full top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo Section */}
-        <Link to="/" className="text-2xl font-bold flex items-center gap-2">
+        <Link to="/dashboard" className="text-2xl font-bold flex items-center gap-2">
           <MdLocalLibrary className="text-yellow-400" /> LibSync
         </Link>
         
